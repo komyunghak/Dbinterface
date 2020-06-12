@@ -12,7 +12,7 @@ import org.edu.vo.MemberVO;
  *    가장 큰 차이는 인터페이스의 구현을 mybatis-spring 에서 자동으로
  *    생성함.
  */
-public interface IF_SampleMapper {
+public interface IF_SampleDAO {
 	// 회원정보 입력-조회-수정-삭제 메서드 명세
 	public void insertMember(MemberVO vo);
 	public List<MemberVO> selectMember();

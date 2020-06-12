@@ -7,24 +7,24 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.edu.vo.MemberVO;
 
-public class SampleMapperlmpl implements IF_SampleMapper{
+public class SampleDAOlmpl implements IF_SampleDAO{
 
 	@Inject
 	private SqlSession sqlSession;
 	//오버라이드=다형성
 	@Override
 	public void insertMember(MemberVO vo) { //현재 MemberVO 안에는 ID PW EMAIL NAME들이 들어있다
-		sqlSession.insert("org.edu.dao.IF_SampleMapper", vo);
+		sqlSession.insert("org.edu.dao.IF_SampleDAO", vo);
 		}
 
 	@Override
 	public List<MemberVO> selectMember() {
-		return sqlSession.selectList("org.edu.dao.IF_SampleMapper");
+		return sqlSession.selectList("org.edu.dao.IF_SampleDAO");
 	}
 
 	@Override
 	public void updateMember(MemberVO vo) {
-		sqlSession.update("org.edu.dao.IF_SampleMapper", vo);
+		sqlSession.update("org.edu.dao.IF_SampleDAO", vo);
 	}
 
 	@Override
