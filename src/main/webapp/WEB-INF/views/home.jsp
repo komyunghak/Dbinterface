@@ -33,9 +33,9 @@ tr, th, td {
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach items="${memberList}" var="memberVO">
+		<c:forEach items="${memberList}" var="memberVO" varStatus="status">
 		<tr>
-					<td>cnt</td>
+					<td>${status.count}</td>
 					<td>${memberVO.userid}</td>
 					<td>${memberVO.userpw}</td>
 					<td>${memberVO.username}</td>
