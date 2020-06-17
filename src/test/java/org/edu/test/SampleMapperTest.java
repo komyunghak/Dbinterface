@@ -7,13 +7,16 @@ import java.util.Random;
 import javax.inject.Inject;
 
 import org.edu.dao.IF_SampleDAO;
+import org.edu.service.IF_SampleService;
+import org.edu.service.SampleServiceImpl;
 import org.edu.vo.MemberVO;
 // import org.edu.dao.SampleSelectProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
+import org.springframework.test.context.web.WebAppConfiguration;
+@WebAppConfiguration //JUnit과 AOP동시사용 에러 처리를 위해서 추가
 @RunWith(SpringJUnit4ClassRunner.class)//정상은 src/main/java속 들어가는게 정상이지만 이것은 테스트이기때문에 여기다가 저장을한다.
 @ContextConfiguration(locations ={"file:src/main/webapp/WEB-INF/spring/**/*.xml"})//테스트용이기떄문에 경로를 바로 지정한것이지 무의미한 내용이다
 public class SampleMapperTest {
@@ -40,29 +43,31 @@ public class SampleMapperTest {
 	@Inject
 	private IF_SampleDAO mapper; //인터페이스를 실행가능하게 mapper변수로 지정
 	//클래스를 실행변수로 사용시 =>//위와같은의미 IF_SampleMapper mapper = new IF_SampleMapper(); 구형 웹프로그램에서는 이 명령어를 쓰지만 에러가 많이떠서 위에명령어로 사용한다.
+	@Inject
+	private IF_SampleService sampleService;
 	
-	@Test
-	public void testInsertMember() {
-		int vRandom = 0;
+		@Test
+		public void testInsertMember() throws Exception {
+		/*int vRandom = 0;
 		Random ran = new Random();
-		vRandom = ran.nextInt();
+		vRandom = ran.nextInt();*/
 		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyyMMddHHmmss");
 		String today= formatter.format(new java.util.Date());
-		testSelectMember();
-		System.out.println("위쪽은 입력 전 리스트 입니다.");
+		//testSelectMember();
+		//System.out.println("위쪽은 입력 전 리스트 입니다.");
 		MemberVO vo = new MemberVO();
-		vo.setUserid("user_" + vRandom);
+		vo.setUserid("user_" + today);
 		vo.setUserpw("1234");
 		vo.setUsername("각시탈");
 		vo.setEmail("user10@test.com");
-		mapper.insertMember(vo);
-		System.out.println("아래쪽은 입력 후 리스트 입니다.");
-		testSelectMember();   // 이 명령어가 있으므로 자동저장이된다(워크스페이스)
+		sampleService.insertMember(vo);
+		//System.out.println("아래쪽은 입력 후 리스트 입니다.");
+		//testSelectMember();   // 이 명령어가 있으므로 자동저장이된다(워크스페이스)
 	}
 	@Test
 	public void testSelectMember() {
 		List<MemberVO> list = mapper.selectMember();
-		int cnt = 1;
+		/*int cnt = 1;
 		for(MemberVO vo:list) {
 			System.out.println(
 					"번호:" + cnt++ + "번" + 
@@ -71,15 +76,15 @@ public class SampleMapperTest {
 					" 이름:" + vo.getUsername() +
 					" 이메일:" + vo.getEmail() 
 					);
-		}
+		}*/
 		
 	}
 	@Test
 	public void testUpdateMember() {	
 		MemberVO vo = new MemberVO(); 
 		//수정은 여러개의 변수값을 변경하기 때문에 MemberVO클래스 변수를 매개변수로 사용한다.
-		testSelectMember();
-		System.out.println("위에서 수정전 이름을 확인 하세요.");
+		//testSelectMember();
+		//System.out.println("위에서 수정전 이름을 확인 하세요.");
 		
 		vo.setUserid("user12");  //유저아이디를 보내는이유는 where조건에 맞춰주기위해
 		vo.setUserpw("4321");
@@ -87,16 +92,16 @@ public class SampleMapperTest {
 		vo.setEmail("abc@abc.com");
 		mapper.updateMember(vo);
 		
-		System.out.println("아래에서 수정 후 이름을 확인 하세요.");
-		testSelectMember();
+		//System.out.println("아래에서 수정 후 이름을 확인 하세요.");
+		//testSelectMember();
 	}
 		
 	@Test
 	public void testDeletMember() {
-		testSelectMember();
+	//	testSelectMember();
 		mapper.deleteMember("user11");
-		System.out.println("아래는 지운 후 회원리스트 입니다.");
-		testSelectMember();
+		//System.out.println("아래는 지운 후 회원리스트 입니다.");
+	//	testSelectMember();
 	}
 	
 	//DB연동방식1

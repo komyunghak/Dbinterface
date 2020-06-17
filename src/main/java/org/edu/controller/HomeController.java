@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Handles requests for the application home page.
@@ -28,7 +30,34 @@ public class HomeController {
 	
 	@Inject
 	private IF_SampleService sampleService;
+	
+	
 	/**
+	 * 회원 삭제를 위한 경로, home.jsp와 같이 사용
+	 * Simply selects the home view to render by returning its name.
+	 throws Exception
+	 */
+	@RequestMapping(value = "/admin/member/delete", method = RequestMethod.POST)
+	 public String deleteMember(@RequestParam("userid")String userid, Model model, RedirectAttributes rdat) throws Exception {
+	 sampleService.deleteMember(userid);
+     return "redirect:/"; //삭제 된 후 화면 리플레쉬 하는 효과
+	 }
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 throws Exception
+	 */
+	@RequestMapping(value = "/admin/member/create", method = RequestMethod.POST)
+	 public String createMember(MemberVO memberVO, Model model, RedirectAttributes rdat) throws Exception {
+	 sampleService.insertMember(memberVO);
+     return "redirect:/";
+	 }
+	
+	
+	
+	
+	
+	/**
+	 * 회원등록을 위한 경로, home.jsp 같이 사용
 	 * Simply selects the home view to render by returning its name.
 	 throws Exception
 	 */

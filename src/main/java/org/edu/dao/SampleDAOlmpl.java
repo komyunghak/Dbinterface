@@ -11,27 +11,29 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SampleDAOlmpl implements IF_SampleDAO{
 
+	private static String mapperQuery = "org.edu.dao.IF_SampleDAO";
+	
 	@Inject
 	private SqlSession sqlSession;
 	//오버라이드=다형성
 	@Override
 	public void insertMember(MemberVO vo) { //현재 MemberVO 안에는 ID PW EMAIL NAME들이 들어있다
-		sqlSession.insert("org.edu.dao.IF_SampleDAO", vo);
+		sqlSession.insert("org.edu.dao.IF_SampleDAO.insertMember", vo);
 		}
-
+	
 	@Override
 	public List<MemberVO> selectMember() {
-		return sqlSession.selectList("org.edu.dao.IF_SampleDAO");
+		return sqlSession.selectList(mapperQuery +".selectMember");
 	}
 
 	@Override
 	public void updateMember(MemberVO vo) {
-		sqlSession.update("org.edu.dao.IF_SampleDAO", vo);
+		sqlSession.update(mapperQuery+".updateMember", vo);
 	}
 
 	@Override
 	public void deleteMember(String userid) {
-		sqlSession.delete("org.edu.dao.IF_SampleMapper", userid);
+		sqlSession.delete(mapperQuery+".deleteMember", userid);
 		
 	}
 

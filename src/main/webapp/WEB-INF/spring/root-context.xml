@@ -68,9 +68,22 @@
 	      위 1.과 같이 하면 매번 Mapper 인터페이스를 인식시켜야 하므로
 	       아래 설정으로 mybatis-spring:scan 은 자동으로 해당 패키지 안에 선언된 
 	       인터페이스를 Mapper 로 인식함. 
-	 -->
 	 <mybatis-spring:scan base-package="org.edu.dao"/>
-	 <context:component-scan base-package="org.edu.service" />		
+	 -->
+	 <!-- 
+		...133, 176p.MyBatis에서 DAO를 이용하는 경우, SqlSessionTemplate라는 것을 이용해서 DAO를 구현함.
+		mybatis-spring에서 제공하는 SqlSessionTempalte객체는 기본적인 트랜잭션 관리나 쓰레드 처리의
+		안정성등을 보장해주고, 개발자들이 직접 DB 연결, 종료작업하는 것을 줄여줌.
+		SqlSessionFactory를 생성자로 주입함.
+	 -->
+	 <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" 
+	 	  destroy-method="clearCache">
+	  <constructor-arg name="sqlSessionFactory" 
+	    	ref="sqlSessionFactory"></constructor-arg>
+	 </bean>
+	 <context:component-scan base-package="org.edu.dao" />
+	 <context:component-scan base-package="org.edu.service" />	
+	 	
 	 <context:component-scan base-package="org.edu.aop"></context:component-scan>
 	 <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	 <aop:config></aop:config>	
